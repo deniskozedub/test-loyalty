@@ -1,66 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\LoyaltyAccount;
-use Illuminate\Http\Request;
+use App\Enums\AccountTypeEnum;
+use App\Factories\AccountFactory;
+use App\Http\Requests\AccountRequest;
+use App\Http\Resources\AccountResource;
+use App\Services\AccountService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class AccountController extends Controller
 {
-    public function create(Request $request)
+
+    public function __construct(
+        private AccountFactory $accountFactory,
+        private AccountService $accountService
+    ){}
+
+    /**
+     * @throws UnknownProperties
+     */
+    public function store(AccountRequest $accountRequest): JsonResponse
     {
-        return LoyaltyAccount::create($request->all());
+        $accountFactory = $this->accountFactory->create($accountRequest);
+        $account =  $this->accountService->create($accountFactory);
+
+        return $this->response(AccountResource::make($account))->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function activate($type, $id)
+    public function changeStatus($type, $id): JsonResponse
     {
-        if (($type == 'phone' || $type == 'card' || $type == 'email') && $id != '') {
-            if ($account = LoyaltyAccount::where($type, '=', $id)->first()) {
-                if (!$account->active) {
-                    $account->active = true;
-                    $account->save();
-                    $account->notify('Account restored');
-                }
-            } else {
-                return response()->json(['message' => 'Account is not found'], 400);
-            }
-        } else {
+        if (!in_array($type, AccountTypeEnum::toLabels())){
             throw new \InvalidArgumentException('Wrong parameters');
         }
+
+        $this->accountService->activate($id);
 
         return response()->json(['success' => true]);
     }
 
-    public function deactivate($type, $id)
+    public function balance($type, $id): JsonResponse
     {
-        if (($type == 'phone' || $type == 'card' || $type == 'email') && $id != '') {
-            if ($account = LoyaltyAccount::where($type, '=', $id)->first()) {
-                if ($account->active) {
-                    $account->active = false;
-                    $account->save();
-                    $account->notify('Account banned');
-                }
-            } else {
-                return response()->json(['message' => 'Account is not found'], 400);
-            }
-        } else {
+        if (!in_array($type, AccountTypeEnum::toLabels())){
             throw new \InvalidArgumentException('Wrong parameters');
         }
 
-        return response()->json(['success' => true]);
-    }
+        $balance = $this->accountService->getBalance($id);
 
-    public function balance($type, $id)
-    {
-        if (($type == 'phone' || $type == 'card' || $type == 'email') && $id != '') {
-            if ($account = LoyaltyAccount::where($type, '=', $id)->first()) {
-                return response()->json(['balance' => $account->getBalance()], 400);
-
-            } else {
-                return response()->json(['message' => 'Account is not found'], 400);
-            }
-        } else {
-            throw new \InvalidArgumentException('Wrong parameters');
-        }
+        return response()->json(['balance' => $balance]);
     }
 }
