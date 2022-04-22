@@ -7,15 +7,19 @@ use Illuminate\Support\Facades\Route;
 
     // account auth
 
-Route::prefix('auth')->middleware('auth:sanctum')->group(function (){
-    Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:sanctum');
-    Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
-    Route::post('logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function (){
+    // auth user
+    Route::prefix('auth')->group(function (){
+        Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:sanctum');
+        Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
+        Route::post('logout', [AuthController::class, 'logout']);
+    });
     // account management
-    Route::post('account/create', [AccountController::class, 'create']);
-    Route::post('account/activate/{type}/{id}', [AccountController::class, 'activate']);
-    Route::post('account/deactivate/{type}/{id}', [AccountController::class, 'deactivate']);
-    Route::get('account/balance/{type}/{id}', [AccountController::class, 'balance']);
+    Route::prefix('account')->group(function (){
+        Route::post('store', [AccountController::class, 'store']);
+        Route::post('change-status/{type}/{id}', [AccountController::class, 'changeStatus']);
+        Route::get('balance/{type}/{id}', [AccountController::class, 'balance']);
+    });
 
     // loyalty points management
     Route::post('loyaltyPoints/deposit', [LoyaltyPointsController::class, 'deposit']);
