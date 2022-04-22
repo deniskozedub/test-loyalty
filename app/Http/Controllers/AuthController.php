@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Factories\Auth\AuthFactory;
+use App\Factories\AuthFactory;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Resources\User\AuthResource;
 use App\Http\Requests\User\RegisterRequest;
@@ -12,6 +12,7 @@ use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class AuthController extends Controller
 {
@@ -20,6 +21,9 @@ class AuthController extends Controller
         private AuthService $authService
     ) {}
 
+    /**
+     * @throws UnknownProperties
+     */
     public function register(RegisterRequest $registerRequest): JsonResponse
     {
         $registerFactory = $this->authFactory->register($registerRequest);
@@ -30,7 +34,10 @@ class AuthController extends Controller
 
     public function login(LoginRequest $loginRequest)
     {
-        $loginFactory = $this->authFactory->login($loginRequest->input('email'), $loginRequest->input('password'));
+        $loginFactory = $this->authFactory->login(
+                            $loginRequest->input('email'),
+                            $loginRequest->input('password')
+                        );
         $user = $this->authService->login($loginFactory);
 
         return $this->response(AuthResource::make($user));

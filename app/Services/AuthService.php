@@ -7,7 +7,6 @@ namespace App\Services;
 use App\DataTransferObjects\Auth\AuthDTO;
 use App\DataTransferObjects\Auth\LoginDTO;
 use App\Repositories\AuthRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;

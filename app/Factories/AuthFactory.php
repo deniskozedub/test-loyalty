@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factories\Auth;
+namespace App\Factories;
 
 use App\DataTransferObjects\Auth\AuthDTO;
 use App\DataTransferObjects\Auth\LoginDTO;

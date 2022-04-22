@@ -9,7 +9,7 @@ use Spatie\Enum\Enum;
 /**
  * @method static self basic()
  * @method static self bearer()
- */
+*/
 
 class TypeTokenEnum extends Enum
 {
