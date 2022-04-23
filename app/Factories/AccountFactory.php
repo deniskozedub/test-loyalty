@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factories;
 
-use App\DataTransferObjects\Account\AccountDTO;
+use App\DataTransferObjects\AccountDTO;
 use App\Http\Requests\AccountRequest;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 

@@ -48,5 +48,5 @@ docker run -it --user www -v ${pwd}:/var/www test-task-loyalty-service /bin/sh -
 - Linux
 ```bash
 cd test-task-loyalty-service-1-0-1-32183366 && docker-compose up
-docker run -it --user www -v $PWD:/var/www test-task-loyalty-service-1-0-1-32183366 /bin/sh -lc "composer install && cp .env.example .env && php artisan key:generate && php artisan migrate"
+docker run -it --user www -v $PWD:/var/www test-task-loyalty-service-1-0-1-32183366 /bin/sh -lc "composer install && cp .env.example .env && php artisan key:generate && php artisan migrate --seed"
 ```
