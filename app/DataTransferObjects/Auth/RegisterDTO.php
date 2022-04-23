@@ -6,7 +6,7 @@ namespace App\DataTransferObjects\Auth;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class AuthDTO extends DataTransferObject
+class RegisterDTO extends DataTransferObject
 {
     public string $name;
 

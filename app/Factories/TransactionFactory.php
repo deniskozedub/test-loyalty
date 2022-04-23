@@ -18,7 +18,7 @@ class TransactionFactory
         return new DepositDTO([
             'accountId' => $pointRequest->input('accountId'),
             'pointsRule' => $pointRequest->input('pointsRule'),
-            'pointsAmount' => $pointRequest->input('pointsAmount'),
+            'pointsAmount' => (float)$pointRequest->input('pointsAmount'),
             'description' => $pointRequest->input('description'),
             'paymentId' => $pointRequest->input('paymentId'),
             'paymentAmount' => $pointRequest->input('paymentAmount'),

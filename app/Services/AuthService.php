@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\DataTransferObjects\Auth\AuthDTO;
+use App\DataTransferObjects\Auth\RegisterDTO;
 use App\DataTransferObjects\Auth\LoginDTO;
 use App\Exceptions\UnauthorizedException;
 use App\Repositories\AuthRepository;
@@ -15,6 +15,9 @@ class AuthService
 {
     public function __construct(private AuthRepository $authRepository) {}
 
+    /**
+     * @throws UnauthorizedException
+     */
     public function login(LoginDTO $loginDTO): array
     {
         $user = $this->authRepository->findUserByEmail($loginDTO->email);
@@ -30,9 +33,9 @@ class AuthService
 
     }
 
-    public function register(AuthDTO $authDTO): array
+    public function register(RegisterDTO $registerDTO): array
     {
-        $user = $this->authRepository->register($authDTO);
+        $user = $this->authRepository->register($registerDTO);
 
         return [
             'user' => $user,

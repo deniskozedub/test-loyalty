@@ -12,7 +12,7 @@ class DepositDTO extends DataTransferObject
 
     public ?int $pointsRule;
 
-    public int $pointsAmount;
+    public float $pointsAmount;
 
     public string $description;
 

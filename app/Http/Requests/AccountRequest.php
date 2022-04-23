@@ -17,7 +17,7 @@ class AccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => ['required', Rule::unique('loyalty_account','email'), 'min:10'],
+            'phone' => ['required', Rule::unique('loyalty_account','phone'), 'min:10'],
             'card' => ['required', Rule::unique('loyalty_account','card'), 'min:16'],
             'email' => ['required', 'email', Rule::unique('loyalty_account','email'),]
         ];

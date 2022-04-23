@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\DataTransferObjects\Auth\AuthDTO;
+use App\DataTransferObjects\Auth\RegisterDTO;
 use App\Models\User;
 
 class AuthRepository extends BaseRepository
@@ -14,12 +14,12 @@ class AuthRepository extends BaseRepository
         return User::class;
     }
 
-    public function register(AuthDTO $authDTO): User
+    public function register(RegisterDTO $registerDTO): User
     {
         return  $this->query()->create([
-            'name' => $authDTO->name,
-            'email' => $authDTO->email,
-            'password' => $authDTO->password,
+            'name' => $registerDTO->name,
+            'email' => $registerDTO->email,
+            'password' => $registerDTO->password,
         ]);
     }
 

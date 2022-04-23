@@ -43,7 +43,7 @@ class AccountController extends Controller
             throw new ParameterException();
         }
 
-        $this->accountService->activate($id);
+        $this->accountService->activate((int) $id);
 
         return response()->json(['success' => true]);
     }
@@ -58,7 +58,7 @@ class AccountController extends Controller
             throw new ParameterException();
         }
 
-        $balance = $this->accountService->getBalance($id);
+        $balance = $this->accountService->getBalance((int)$id);
 
         return response()->json(['balance' => $balance]);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factories;
 
-use App\DataTransferObjects\Auth\AuthDTO;
+use App\DataTransferObjects\Auth\RegisterDTO;
 use App\DataTransferObjects\Auth\LoginDTO;
 use App\Http\Requests\User\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +15,9 @@ class AuthFactory
     /**
      * @throws UnknownProperties
      */
-    public function register(RegisterRequest $registerRequest): AuthDTO
+    public function register(RegisterRequest $registerRequest): RegisterDTO
     {
-        return new AuthDTO([
+        return new RegisterDTO([
             'name' => $registerRequest->input('name'),
             'email' => $registerRequest->input('email'),
             'password' => Hash::make($registerRequest->input('password'))

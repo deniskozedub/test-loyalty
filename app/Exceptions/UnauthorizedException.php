@@ -13,6 +13,6 @@ class UnauthorizedException extends Exception
     {
         return response([
             "message" => $this->message,
-        ], 401);
+        ], 400);
     }
 }

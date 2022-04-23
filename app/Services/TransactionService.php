@@ -49,7 +49,7 @@ class TransactionService
         return $transaction;
     }
 
-    private function pointAmount(int $paymentAmount, int $pointsRule): int
+    private function pointAmount(int $paymentAmount, int $pointsRule): float
     {
         $pointsAmount = 0;
 
@@ -60,7 +60,7 @@ class TransactionService
             };
         }
 
-        return (int) $pointsAmount;
+        return (float) $pointsAmount;
     }
 
     public function cancel(int $transactionId, string $reason): void
