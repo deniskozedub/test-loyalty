@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UnauthorizedException;
 use App\Factories\AuthFactory;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Resources\User\AuthResource;
@@ -32,7 +33,10 @@ class AuthController extends Controller
         return $this->response(AuthResource::make($user))->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function login(LoginRequest $loginRequest)
+    /**
+     * @throws UnauthorizedException
+     */
+    public function login(LoginRequest $loginRequest): JsonResponse
     {
         $loginFactory = $this->authFactory->login(
                             $loginRequest->input('email'),

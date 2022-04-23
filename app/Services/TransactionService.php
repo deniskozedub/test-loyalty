@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\DataTransferObjects\Transaction\DepositDTO;
+use App\DataTransferObjects\DepositDTO;
+use App\Exceptions\AccountActiveException;
+use App\Exceptions\BalanceException;
 use App\Models\LoyaltyPointsRule;
 use App\Models\LoyaltyPointsTransaction;
 use App\Repositories\AccountRepository;
@@ -31,18 +33,18 @@ class TransactionService
         $account = $this->accountRepository->findById($depositDTO->accountId);
 
         if (!$account->active){
-            throw  new \Exception('Account is not active', 400);
+            throw new AccountActiveException();
         }
 
         $depositDTO->pointsAmount = $this->pointAmount($depositDTO->paymentAmount, $depositDTO->pointsRule);
         $transaction = $this->transactionRepository->create($depositDTO);
 
         if ($account->email != '' && $account->email_notification){
-            //job dispatch
+            //job dispatch send email
         }
 
         if ($account->phone != '' && $account->phone_notification) {
-            //job dispatch
+            //job dispatch send sms
         }
         return $transaction;
     }
@@ -74,11 +76,11 @@ class TransactionService
         $account = $this->accountRepository->findById($accountId);
 
         if (!$account->active){
-            throw  new \Exception('Account is not active', 400);
+            throw new AccountActiveException();
         }
 
         if ($this->getBalance($accountId) < $amount){
-            throw  new \Exception('Insufficient funds', 400);
+            throw  new BalanceException();
         }
 
         return $this->transactionRepository->withdraw($accountId, $amount, $description);

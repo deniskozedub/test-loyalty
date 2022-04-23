@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\DataTransferObjects\Transaction\DepositDTO;
+use App\DataTransferObjects\DepositDTO;
 use App\Models\LoyaltyPointsTransaction;
 
 class TransactionRepository extends BaseRepository

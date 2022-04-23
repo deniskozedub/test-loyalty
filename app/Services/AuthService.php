@@ -6,10 +6,10 @@ namespace App\Services;
 
 use App\DataTransferObjects\Auth\AuthDTO;
 use App\DataTransferObjects\Auth\LoginDTO;
+use App\Exceptions\UnauthorizedException;
 use App\Repositories\AuthRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthService
 {
@@ -20,7 +20,7 @@ class AuthService
         $user = $this->authRepository->findUserByEmail($loginDTO->email);
 
         if (!$this->checkPassword($loginDTO->password, $user->password)) {
-            throw new UnauthorizedHttpException('Bearer', 'Bad credentials');
+            throw new UnauthorizedException();
         }
 
         return [

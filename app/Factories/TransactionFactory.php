@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factories;
 
-use App\DataTransferObjects\Transaction\DepositDTO;
+use App\DataTransferObjects\DepositDTO;
 use App\Http\Requests\Transaction\LoyaltyPointRequest;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 

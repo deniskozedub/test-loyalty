@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\AccountTypeEnum;
+use App\Exceptions\ParameterException;
 use App\Factories\TransactionFactory;
 use App\Http\Requests\Transaction\CancelRequest;
 use App\Http\Requests\Transaction\LoyaltyPointRequest;
@@ -12,6 +13,7 @@ use App\Http\Requests\Transaction\WithdrawRequest;
 use App\Http\Resources\Transaction\TransactionResource;
 use App\Http\Resources\Transaction\WithdrawResource;
 use App\Services\TransactionService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
@@ -25,7 +27,7 @@ class LoyaltyPointsController extends Controller
 
     /**
      * @throws UnknownProperties
-     * @throws \Exception
+     * @throws Exception
      */
     public function deposit(LoyaltyPointRequest $pointRequest): JsonResponse
     {
@@ -46,12 +48,12 @@ class LoyaltyPointsController extends Controller
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function withdraw(WithdrawRequest $withdrawRequest): JsonResponse
     {
         if (!in_array($withdrawRequest->input('accountType'), AccountTypeEnum::toLabels())){
-            throw new \InvalidArgumentException('Wrong parameters');
+            throw new ParameterException();
         }
 
         $transaction = $this->transactionService->withdraw(

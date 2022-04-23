@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\DataTransferObjects\AccountDTO;
+use App\Exceptions\AccountException;
 use App\Jobs\AccountActionJob;
 use App\Models\LoyaltyAccount;
 use App\Repositories\AccountRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AccountService
 {
@@ -28,10 +28,13 @@ class AccountService
         AccountActionJob::dispatch($account);
     }
 
+    /**
+     * @throws AccountException
+     */
     public function getBalance(int $accountId): float
     {
         if (!$this->accountRepository->accountExists($accountId)){
-            throw new ModelNotFoundException('Account not found');
+            throw new AccountException();
         }
 
         return $this->transactionService->getBalance($accountId);

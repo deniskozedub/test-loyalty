@@ -32,8 +32,5 @@ class AccountActionJob implements ShouldQueue
         if ($this->loyaltyAccount->phone_notification){
             //send phone sms if you need
         }
-
-
-
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\AccountTypeEnum;
+use App\Exceptions\AccountException;
+use App\Exceptions\ParameterException;
 use App\Factories\AccountFactory;
 use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
@@ -32,10 +34,13 @@ class AccountController extends Controller
         return $this->response(AccountResource::make($account))->setStatusCode(Response::HTTP_CREATED);
     }
 
+    /**
+     * @throws ParameterException
+     */
     public function changeStatus($type, $id): JsonResponse
     {
         if (!in_array($type, AccountTypeEnum::toLabels())){
-            throw new \InvalidArgumentException('Wrong parameters');
+            throw new ParameterException();
         }
 
         $this->accountService->activate($id);
@@ -43,10 +48,14 @@ class AccountController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /**
+     * @throws AccountException
+     * @throws ParameterException
+     */
     public function balance($type, $id): JsonResponse
     {
         if (!in_array($type, AccountTypeEnum::toLabels())){
-            throw new \InvalidArgumentException('Wrong parameters');
+            throw new ParameterException();
         }
 
         $balance = $this->accountService->getBalance($id);
