@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\DataTransferObjects\Account\AccountDTO;
+use App\DataTransferObjects\AccountDTO;
 use App\Jobs\AccountActionJob;
 use App\Models\LoyaltyAccount;
 use App\Repositories\AccountRepository;

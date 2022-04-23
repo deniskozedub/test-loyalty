@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\DataTransferObjects\Account\AccountDTO;
+use App\DataTransferObjects\AccountDTO;
 use App\Models\LoyaltyAccount;
 
 class AccountRepository extends BaseRepository
@@ -40,5 +40,10 @@ class AccountRepository extends BaseRepository
         $account->save();
 
         return $account;
+    }
+
+    public function findById(int $id): ?LoyaltyAccount
+    {
+        return $this->query()->findOrFail($id);
     }
 }

@@ -21,10 +21,19 @@ class AccountActionJob implements ShouldQueue
 
     public function handle()
     {
-        if ($this->loyaltyAccount->active){
-            //send mail on active account
-        }else{
-            //send mail on inactive account
+        if ($this->loyaltyAccount->email_notification){
+            if ($this->loyaltyAccount->active){
+                //send mail on active account
+            }else{
+                //send mail on inactive account
+            }
         }
+
+        if ($this->loyaltyAccount->phone_notification){
+            //send phone sms if you need
+        }
+
+
+
     }
 }
